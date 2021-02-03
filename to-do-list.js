@@ -16,13 +16,14 @@ addButton.addEventListener("click",function(e){
 
 function storeIntoLocalStorage(id)
 {
-    localStorage.setItem(`todos${id}`,todos.innerHTML);
+    //localStorage.setItem(`todos${id}`,todos.innerHTML);
+    localStorage.setItem("todos",todos.innerHTML);
 }
 
 function getValuesFromLocalStorag()
 {
-    for(let i = 0;i < localStorage.length;++i){
-        let storedVal = localStorage.getItem(`todos${i}`);
+    //for(let i = 0;i < localStorage.length;++i){
+        let storedVal = localStorage.getItem("todos");
         if(!storedVal && !flagTo) 
         {
             todos.innerHTML = "";
@@ -31,7 +32,7 @@ function getValuesFromLocalStorag()
             todos.innerHTML = storedVal;
             flagTo = true;
         }
-        let comVal = localStorage.getItem(`completed${i}`);
+        let comVal = localStorage.getItem("completed");
         if(!comVal && !flagCom)
         {
             completed.innerHTML = "";
@@ -40,7 +41,7 @@ function getValuesFromLocalStorag()
             completed.innerHTML = comVal;
             flagCom = true;
         }
-    }
+   // }
 }
 getValuesFromLocalStorag();
 
@@ -67,12 +68,10 @@ function addNewTask(id)
         deleteButton.setAttribute("value"," ");
 
         deleteButton.addEventListener("click",function(e){
-            let result = confirm("Are you sure you want to delete this contact ?");
-            if (result) {            
                 removeTask(li.id);
-               // window.deferredPrompt = Object.assign(e);
-            }
         });
+        //deleteButton.onclick = removeTask;
+        
         let text = document.createElement('span');
         text.innerHTML = `${input.value}`;
         text.setAttribute("class","task");
@@ -82,12 +81,14 @@ function addNewTask(id)
             if(checkBox.checked)
             {
                 moveToCompleted(li.id);
+                checkBox.onclick = moveToCompleted;
             }
             else{
                 moveToDo(li.id);
+               //checkBox.onclick = moveToDo;
             }
-            //window.deferredPrompt = Object.assign(e);
         });
+        
         li.appendChild(checkBox);
         li.appendChild(labelCheckBox);
         li.appendChild(deleteButton);
@@ -96,41 +97,53 @@ function addNewTask(id)
 }
 function removeTask(id)
 {
-    let li = document.getElementById(`${id}`);
-    if(li.className === "todos"){
-        document.getElementById("toDoList").removeChild(li);
-        localStorage.removeItem(`todos${id}`);
-    }
-    else{
-        document.getElementById("completed").removeChild(li);
-        localStorage.removeItem(`completed${id}`);
-    }
+     let li = document.getElementById(`${id}`);
+     if(li.className === "todos"){
+         document.getElementById("toDoList").removeChild(li);
+         localStorage.removeItem("todos");
+         localStorage.setItem("todos",todos.innerHTML);
+     }
+     else{
+         document.getElementById("completed").removeChild(li);
+         localStorage.removeItem("completed");
+         localStorage.setItem("completed",completed.innerHTML);
+     }
 
 }
 function moveToDo(id)
 {
-    console.log(todos);
+    let check = document.getElementById(`check${id}`);
+    check.setAttribute("checked","false");
     let span = document.getElementById(`span${id}`);
     span.style.textDecoration='none';
     let li = document.getElementById(`${id}`);
     li.setAttribute("class","todos")
     todos.appendChild(li);
-    localStorage.removeItem(`todos${id}`);
-    localStorage.setItem(`todos${id}`,todos.innerHTML);
 
-    localStorage.removeItem(`completed${id}`);
-    localStorage.setItem(`completed${id}`,completed.innerHTML);
+    //console.log(todos);
+   
+    //var data = localStorage.getItem("todos");
+    //var arr = data.split(',');
+    //arr.splice(id-1,1);
+   // localStorage.removeItem("todos");
+    localStorage.setItem("todos",todos.innerHTML);
+
+    //var data = localStorage.getItem("completed");
+   // var arr = data.split(',');
+    //arr.splice(id-1,1);
+   // localStorage.removeItem("completed");
+    localStorage.setItem("completed",completed.innerHTML);
 }
 function moveToCompleted(id)
 {
+    let check = document.getElementById(`check${id}`);
+    check.setAttribute("checked","true");
     let span = document.getElementById(`span${id}`);
     span.style.textDecoration='line-through';
     let li = document.getElementById(`${id}`);
     li.setAttribute("class","completed")
     completed.appendChild(li);
-    localStorage.removeItem(`completed${id}`);
-    localStorage.setItem(`completed${id}`,completed.innerHTML);
 
-    localStorage.removeItem(`todos${id}`);
-    localStorage.setItem(`todos${id}`,todos.innerHTML);
+    localStorage.setItem("completed",completed.innerHTML);
+    localStorage.setItem("todos",todos.innerHTML);
 }
