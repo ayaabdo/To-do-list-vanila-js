@@ -3,13 +3,15 @@ var input = document.getElementById("todo");
 var addButton = document.getElementById("add");
 var completed = document.getElementById("completed");
 var flagCom = false,flagTo = false;
-var ids = localStorage.length;
 
 addButton.addEventListener("click",function(e){
+    var ids = localStorage.length;
    // e.preventDefault();
     ids++;
     if(input.value){
         addNewTask(ids);
+        localStorage.setItem("todos",todos.innerHTML);
+        //storeIntoLocalStorage(ids);
         input.value = "";
     }
 });
@@ -76,8 +78,8 @@ function addNewTask(id)
         li.appendChild(deleteButton);
         li.appendChild(text);
         todos.appendChild(li);
-        localStorage.removeItem("todos");
-        localStorage.setItem("todos",todos.innerHTML);
+       // localStorage.removeItem("todos");
+       // localStorage.setItem("todos",todos.innerHTML);
 }
 
 function removeTask()
@@ -88,11 +90,11 @@ function removeTask()
     ul.removeChild(listItem);
 
      if(listItem.className === "todos"){
-         localStorage.removeItem("todos");
+         l//ocalStorage.removeItem("todos");
          localStorage.setItem("todos",todos.innerHTML);
      }
      else{
-         localStorage.removeItem("completed");
+         //localStorage.removeItem("completed");
          localStorage.setItem("completed",completed.innerHTML);
      }
 
