@@ -5,22 +5,12 @@ var completed = document.getElementById("completed");
 var flagCom = false,flagTo = false;
 
 addButton.addEventListener("click",function(e){
-    var ids = localStorage.length;
-   // e.preventDefault();
-    ids++;
+   
     if(input.value){
-        addNewTask(ids);
-        localStorage.setItem("todos",todos.innerHTML);
-        //storeIntoLocalStorage(ids);
+        addNewTask(input.value);
         input.value = "";
     }
 });
-
-function storeIntoLocalStorage(id)
-{
-    //localStorage.setItem(`todos${id}`,todos.innerHTML);
-    localStorage.setItem("todos",todos.innerHTML);
-}
 
 function getValuesFromLocalStorag()
 {
@@ -78,8 +68,8 @@ function addNewTask(id)
         li.appendChild(deleteButton);
         li.appendChild(text);
         todos.appendChild(li);
-       // localStorage.removeItem("todos");
-       // localStorage.setItem("todos",todos.innerHTML);
+
+        localStorage.setItem("todos",todos.innerHTML);
 }
 
 function removeTask()
@@ -90,11 +80,9 @@ function removeTask()
     ul.removeChild(listItem);
 
      if(listItem.className === "todos"){
-         l//ocalStorage.removeItem("todos");
          localStorage.setItem("todos",todos.innerHTML);
      }
      else{
-         //localStorage.removeItem("completed");
          localStorage.setItem("completed",completed.innerHTML);
      }
 
@@ -111,9 +99,9 @@ function changeStatus()
         check.setAttribute("checked","true");
         var span = document.getElementById(`span${listItem.getAttribute('id')}`);
         span.style.textDecoration='line-through';
-        var li = document.getElementById(`${listItem.getAttribute('id')}`);
-        li.setAttribute("class","completed")
-        completed.appendChild(li);
+        //var li = document.getElementById(`${listItem.getAttribute('id')}`);
+        listItem.setAttribute("class","completed");
+        completed.appendChild(listItem);
     }
     else{
         var check = document.getElementById(`check${listItem.getAttribute('id')}`);
@@ -121,9 +109,9 @@ function changeStatus()
         console.log(listItem.getAttribute('id') );
         var span = document.getElementById(`span${listItem.getAttribute('id')}`);
         span.style.textDecoration='none';
-        var li = document.getElementById(`${listItem.getAttribute('id')}`);
-        li.setAttribute("class","todos")
-        todos.appendChild(li);
+        //var li = document.getElementById(`${listItem.getAttribute('id')}`);
+        listItem.setAttribute("class","todos");
+        todos.appendChild(listItem);
     }
     localStorage.setItem("todos",todos.innerHTML);
     localStorage.setItem("completed",completed.innerHTML);
